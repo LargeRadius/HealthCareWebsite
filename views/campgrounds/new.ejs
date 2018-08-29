@@ -1,0 +1,32 @@
+<% include ../partial/header %>
+ 
+<div class="row">
+    <h1 style="text-align: center;">Creat new Post</h1>
+    <div style="width: 50%; max-width: 400px; margin: 30px auto;">
+        <form action="/posts" method="POST">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="name" name="name">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="number" placeholder="campground price" name="price" min="0.01" step="0.01">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="image url" name="image">
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Description" class="form-control" rows="3" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input class="form-control" type="text" name="location" id="location" placeholder="Yosemite National Park, CA" required>
+            </div>
+            <input class=" btn btn-primary btn-block" type="submit" value="Submit">
+          
+        </form>
+        <a href="/posts">Back to View</a>
+    </div>
+    
+</div>
+    
+
+<% include ../partial/footer %>

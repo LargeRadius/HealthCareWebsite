@@ -1,0 +1,17 @@
+<% include ../partial/header %>
+    
+<div class="row">
+    <h1 style="text-align: center;">Edit Comment</h1>
+    <div style="width: 50%; max-width: 400px; margin: 30px auto;">
+        <form action="/posts/<%= campground_id%>/comments/<%= comment._id%>/?_method=PUT" method="POST">
+            <div class="form-group">
+                <textarea class="form-control" rows="3" name="comment[text]" required><%= comment.text%> </textarea>
+            </div>
+            <input class=" btn btn-primary btn-block" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+    
+    
+    
+<% include ../partial/footer %>

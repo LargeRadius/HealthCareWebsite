@@ -1,0 +1,33 @@
+<% include ../partial/header %>
+
+<header class="jumbotron">
+    <h1><span class="glyphicon glyphicon-plus"></span> Welcome To HealthCare!</h1>
+    <p class="lead">A secure medical and health consultation website.</p>
+    <a class="btn btn-primary btn-lg" href="/posts/new" role="button">Add New Post</a>
+</header>
+
+
+
+<div class="row text-center" style="display:flex; flex-wrap:wrap">
+    <% data.forEach(function(camp) { %>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="thumbnail">
+                <img src="<%= camp.image %>" >
+                <div class="caption">
+                    <% if (camp.name && camp.name.length > 50) { %>
+                        <h4><%= camp.name.substring(0, 50)%>... </h4>
+                    <% } else {%>
+                        <h4><%= camp.name%></h4>
+                    <% }%>
+                    
+                </div>
+                <p>
+                    <a href="/posts/<%= camp._id %>" class="btn btn-primary">More Info</a>
+                </p>
+            </div>
+        </div>
+    <% }); %>
+</div>
+    
+
+<% include ../partial/footer %>
