@@ -33,9 +33,9 @@ router.post("/register", function(req, res) {
        }
        passport.authenticate("local")(req, res, function() {
            if (user.isAdmin) {
-               req.flash("success","Welcome to YelpCamp " + user.username +"(Admin)");
+               req.flash("success","Welcome to HealthCare " + user.username +"(Admin)");
            } else {
-               req.flash("success","Welcome to YelpCamp " + user.username);
+               req.flash("success","Welcome to HealthCare " + user.username);
            }
            res.redirect("/posts"); 
         });
@@ -52,7 +52,7 @@ router.post("/login", passport.authenticate("local", {
         successRedirect:"/posts",
         failureRedirect:"/login",
         failureFlash: true,
-        successFlash: 'Welcome to YelpCamp!'
+        successFlash: 'Welcome to HealthCare!'
     }), function(req, res) {
 });
 

@@ -28,9 +28,17 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
            req.flash("error", "Location cannot be empty");
            res.redirect("back");
         }
+        if (data.results[0].geometry == undefined) {
+            req.flash("error", "Location doesn't exist");
+            res.redirect("back");
+        }
         var lat = data.results[0].geometry.location.lat;
         var lng = data.results[0].geometry.location.lng;
         var location = data.results[0].formatted_address;
+        if (location == null) {
+            req.flash("error", "Location doesn't exist");
+            res.redirect("back");
+        }
         var newData = {
             name: name,
             image: image,
@@ -49,7 +57,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             if (err) {
                 console.log(err);
             } else {
-                req.flash("success","New campground created");
+                req.flash("success","New Post created");
                 res.redirect("/posts");
             }
         });
@@ -63,7 +71,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 router.get("/:id", function(req, res) {
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground) {
         if (err || !foundCampground) {
-            req.flash("error", "Campground is not found");
+            req.flash("error", "Post is not found");
             res.redirect("back");
         } else {
             res.render("campgrounds/show", {campground:foundCampground});
@@ -78,7 +86,7 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) 
     Campground.findById(req.params.id, function(err, foundCampground) {
         if (err || !foundCampground) {
             console.log(err);
-            req.flash("error", "Campground is not found");
+            req.flash("error", "Post is not found");
             res.redirect("back");
         } else {
             res.render("campgrounds/edit", {campground:foundCampground});
@@ -101,11 +109,15 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req, res) {
         newCampground.lat = lat;
         newCampground.lng = lng;
         newCampground.location = location;
+        if (location == null) {
+            req.flash("error", "Location doesn't exist");
+            res.redirect("back");
+        }
         
         var newData = {name: req.body.name, image: req.body.image, description: req.body.description, cost: req.body.cost, location: location, lat: lat, lng: lng};
         Campground.findByIdAndUpdate(req.params.id, newCampground, function(err, campground){
             if(err){
-                req.flash("error", "Campground is not found");
+                req.flash("error", "Post is not found");
                 res.redirect("back");
             } else {
                 req.flash("success","Successfully Updated!");
@@ -122,7 +134,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res) {
         if (err) {
             res.redirect("/posts");
         } else {
-            req.flash("error", "Campground deleted");
+            req.flash("error", "Post deleted");
             res.redirect("/posts");
         }
     });

@@ -8,7 +8,7 @@ var middleware = require("../middleware");
 router.get("/new", middleware.isLoggedIn, function(req, res) {
      Campground.findById(req.params.id, function(err, campground) {
          if (err || !campground) {
-            req.flash("error", "Campground is not found");
+            req.flash("error", "Post is not found");
             res.redirect("/posts/" + req.params.id);
          } else {
             res.render("comments/new", {campground : campground});
@@ -19,7 +19,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 router.post("/", middleware.isLoggedIn, function(req, res) {
     Campground.findById(req.params.id, function(err, campground) {
          if (err || !campground) {
-             req.flash("error", "Campground is not found");
+             req.flash("error", "Post is not found");
              res.redirect("/posts/" + req.params.id);
          } else {
              Comment.create(req.body.comment, function(err, comment) {
