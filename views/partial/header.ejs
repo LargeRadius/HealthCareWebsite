@@ -49,11 +49,6 @@
               <% if (currentUser.isAdmin) {%>
                 <li><a href="#">Administrator: <%= currentUser.username%></a></li>
               <% } else {%>
-                <li>
-                  <a id="header-avatar" href="/user/<%= currentUser._id%>">
-                  
-                  </a>
-                </li>
                 <li><a id="header-username" href="/user/<%= currentUser._id%>">Login As: <%= currentUser.username%></a></li>
               <% }%>
               <li><a href="/logout">Logout</a></li>

@@ -21,7 +21,7 @@ router.post("/register", function(req, res) {
        email: req.body.email,
        avatar: req.body.avatar
    });
-   if (req.body.type === "Admin"&& req.body.adminCode === "secretCode123") {
+   if (req.body.adminCode === "secretCode123") {
        newUser.isAdmin = true;
    } else if (req.body.type === "Doctor"&& req.body.adminCode === "secretCode123") {
        newUser.isDoctor = true;

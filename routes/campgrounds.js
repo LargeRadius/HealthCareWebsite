@@ -2,7 +2,16 @@ var express = require("express");
 var router = express.Router();
 var Campground = require("../models/campground");
 var middleware = require("../middleware/");
-var geocoder = require('geocoder');
+var NodeGeocoder = require('node-geocoder');
+ 
+var options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: "AIzaSyDmvKIrN0xhRnEM7Z13Rr0IP85rfMy1hEw",
+  formatter: null
+};
+ 
+var geocoder = NodeGeocoder(options);
 
 
 router.get("/", function(req, res) {
@@ -24,21 +33,13 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     var price = req.body.price;
     
     geocoder.geocode(req.body.location, function (err, data) {
-        if (err) {
-           req.flash("error", "Location cannot be empty");
-           res.redirect("back");
+        if (err || !data.length) {
+          req.flash('error', 'Invalid address');
+          return res.redirect('back');
         }
-        if (data.results[0].geometry == undefined) {
-            req.flash("error", "Location doesn't exist");
-            res.redirect("back");
-        }
-        var lat = data.results[0].geometry.location.lat;
-        var lng = data.results[0].geometry.location.lng;
-        var location = data.results[0].formatted_address;
-        if (location == null) {
-            req.flash("error", "Location doesn't exist");
-            res.redirect("back");
-        }
+        var lat = data[0].latitude;
+        var lng = data[0].longitude;
+        var location = data[0].formattedAddress;
         var newData = {
             name: name,
             image: image,
