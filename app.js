@@ -17,8 +17,8 @@ var indexRoutes         = require("./routes/index"),
     commentRoutes       = require("./routes/comments"),
     campgroundRoutes    = require("./routes/campgrounds");
     
-mongoose.connect("mongodb://localhost/yelp_camp_v13", {useMongoClient: true});
-//mongoose.connect("mongodb://ding:4180thgfth@ds237932.mlab.com:37932/heathcare", {useMongoClient: true});
+//mongoose.connect("mongodb://localhost/yelp_camp_v13", {useMongoClient: true});
+mongoose.connect("mongodb://ding:4180thgfth@ds237932.mlab.com:37932/heathcare", {useMongoClient: true});
 // mongodb://ding:4180thgfth@ds237932.mlab.com:37932/heathcare
 mongoose.Promise = global.Promise;
 //seedDB();

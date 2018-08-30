@@ -7,10 +7,10 @@ var NodeGeocoder = require('node-geocoder');
 var options = {
   provider: 'google',
   httpAdapter: 'https',
-  apiKey: "AIzaSyDmvKIrN0xhRnEM7Z13Rr0IP85rfMy1hEw",
+  apiKey: process.env.GEOCODER_API_KEY,
   formatter: null
 };
- 
+
 var geocoder = NodeGeocoder(options);
 
 
@@ -34,12 +34,17 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     
     geocoder.geocode(req.body.location, function (err, data) {
         if (err || !data.length) {
+          console.log(err);
           req.flash('error', 'Invalid address');
           return res.redirect('back');
         }
         var lat = data[0].latitude;
         var lng = data[0].longitude;
         var location = data[0].formattedAddress;
+        if (location == null) {
+            req.flash("error", "Location doesn't exist");
+            res.redirect("back");
+        }
         var newData = {
             name: name,
             image: image,
@@ -99,13 +104,14 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) 
 //Update route
 router.put("/:id", middleware.checkCampgroundOwnership, function(req, res) {
     geocoder.geocode(req.body.location, function (err, data) {
-        if (err) {
-            req.flash("error", "Location cannot be empty");
-            res.redirect("back");
+        if (err || !data.length) {
+          req.flash('error', 'Invalid address');
+          return res.redirect('back');
         }
-        var lat = data.results[0].geometry.location.lat;
-        var lng = data.results[0].geometry.location.lng;
-        var location = data.results[0].formatted_address;
+        var lat = data[0].latitude;
+        var lng = data[0].longitude;
+        var location = data[0].formattedAddress;
+        
         var newCampground = req.body.campground;
         newCampground.lat = lat;
         newCampground.lng = lng;
