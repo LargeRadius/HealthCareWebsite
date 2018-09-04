@@ -23,13 +23,13 @@ To see the app in action, go to [https://health-care-service.herokuapp.com/](htt
 
   * Admin can manage all posts and comments
 
-* Manage campground posts with basic functionalities:
+* Manage posts with basic functionalities:
 
   * Create, edit and delete posts and comments
 
-  * Upload campground photos
+  * Upload photos
 
-  * Display campground location on Google Maps
+  * Display location on Google Maps
  
 * Flash messages responding to users' interaction with the app
 
